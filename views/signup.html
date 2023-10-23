@@ -63,7 +63,7 @@ const user={
     document.getElementById('passwordid').value = ''; // Clear the phone number field
     
 } catch (error) {
-    document.body.innerHTML=document.body.innerHTML;
+    document.body.innerHTML=document.body.innerHTML+'<h4>user already exists</h4>';
     console.log(error);
 }
 

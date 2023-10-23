@@ -28,6 +28,7 @@ exports.postUser= async (req,res,next)=>{
    if(!req.body.email)
    {
     throw new Error('email is unique')
+    
    }
  
     const name = req.body.name;
@@ -44,6 +45,7 @@ exports.postUser= async (req,res,next)=>{
 catch(err)
 
 {
+    
     res.status(500).json({error:err})
 }
 
