@@ -25,9 +25,9 @@ exports.postUser= async (req,res,next)=>{
 
     try 
     {
-   if(!req.body.password)
+   if(!req.body.email)
    {
-    throw new Error('Password is mandatory')
+    throw new Error('email is unique')
    }
  
     const name = req.body.name;
