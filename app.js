@@ -5,12 +5,12 @@ const app = express();
 const cors=require('cors')
 const rootDir=require('./util/path');
 
-const bookRoutes=require('./routes/booking')
+const bookRoutes=require('./routes/signing')
 
 const sequelize=require('./util/database');
 
 const errorController=require('./controller/error');
-const db =require('./models/book')
+const db =require('./models/signupuser')
 
 app.use(cors());
 app.use(bodyParser.json());
