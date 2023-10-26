@@ -9,7 +9,7 @@
     <div class="container">
         <h1>login Screen</h1>
         <div class="form">
-            <form action="/user/add-user" method="post" class="form" onsubmit="addUsers(event)">
+            <form action="/user/login" method="post" class="form" onsubmit="addUsers(event)">
                 
                   <div class="email">
                       <label>Email</label><br>
@@ -45,34 +45,37 @@ try {
 
 const email=document.getElementById('emailid').value;
 const password=document.getElementById('passwordid').value;
-
+console.log(email,password)
 const user={
    
     email,
     password
 }
 
-    const res = await axios.post("http://localhost:3000/user/add-user",user)
+    const res = await axios.post("http://localhost:3000/user/login",user)
 
     console.log(res);
-    showUserOnScreen(res.data.newUserDetail);
+    console.log(res.data);
    
     document.getElementById('emailid').value = ''; // Clear the email field
     document.getElementById('passwordid').value = ''; // Clear the phone number field
-    
+    if (res.status === 202) {
+            alert(res.data.message);
+    }
 } catch (error) {
     document.body.innerHTML=document.body.innerHTML;
     console.log(error);
+   // alert(error.response.data.message);
 }
 
 
 }
 
-window.addEventListener("DOMContentLoaded", async () => {
- try {
-      const res = await axios.get("http://localhost:3000/user/get-user")
+// window.addEventListener("DOMContentLoaded", async () => {
+//  try {
+//       const res = await axios.get("http://localhost:3000/user/get-user")
   
-      console.log(res.data.allUsers);
+//       console.log(res.data.allUsers);
       // data is in the format of array
   
       // for(let key of res.data)
@@ -84,13 +87,13 @@ window.addEventListener("DOMContentLoaded", async () => {
     //   {
     //       showUserOnScreen(res.data.allUsers[i])
     //       console.log(res.data.allUsers[i]);
-   }
+//    }
    
- catch (err) {
-     document.body.innerHTML= document.body.innerHTML;
-     console.log(err)
-   }
-})
+//  catch (err) {
+//      document.body.innerHTML= document.body.innerHTML;
+//      console.log(err)
+//    }
+// })
 
 // function showUserOnScreen(user)
 // {

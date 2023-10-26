@@ -13,8 +13,13 @@ id:{
     autoIncrement:true,
     primaryKey:true
 },
-
-emailid:
+name:
+{
+    type:Sequelize.STRING,
+    
+    
+},
+email:
 {
     type:Sequelize.STRING,
     

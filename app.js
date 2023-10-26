@@ -5,18 +5,18 @@ const app = express();
 const cors=require('cors')
 const rootDir=require('./util/path');
 
-const bookRoutes1=require('./routes/signing')
-const bookRoutes2=require('./routes/loging')
+
+const bookRoutes=require('./routes/loginsignupRoutes')
 const sequelize=require('./util/database');
 
 const errorController=require('./controller/error');
-const db1 =require('./models/signupuser')
-const db2 =require('./models/loginuser')
+const db =require('./models/user')
+
 
 app.use(cors());
 app.use(bodyParser.json());
-app.use('/user',bookRoutes1);
-app.use('/user',bookRoutes2);
+app.use('/user',bookRoutes);
+
 app.use(errorController.Error404);
 
 sequelize.sync()
