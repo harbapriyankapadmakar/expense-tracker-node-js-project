@@ -1,21 +1,22 @@
 const express=require('express');
-const bodyParser=require('body-parser')
-
 const app = express();
+const bodyParser=require('body-parser')
 const cors=require('cors')
 const rootDir=require('./util/path');
 
-
-const loginsignupRoutes=require('./routes/loginsignupRoutes')
 const sequelize=require('./util/database');
+const loginsignupRoutes=require('./routes/loginsignupRoutes')
 
-const errorController=require('./controller/error');
-const db =require('./models/user')
+const User =require('./models/user')
+const fs=require('fs');
+const path=require('path')
 
 
 app.use(cors());
+app.use(bodyParser.json({ extended: false }));
 app.use(bodyParser.json());
 app.use('/user',loginsignupRoutes);
+app.use(express.static('views'));
 app.use((req,res,next)=>{
     console.log('urlll',req.url);
     res.sendFile(path.join(__dirname,`views/${req.url}`))
@@ -23,7 +24,7 @@ app.use((req,res,next)=>{
 
  
 sequelize.sync()
-.then( res =>{
+.then( result =>{
     var port=3000;
     app.listen(port, () => console.log('Server starts....'))
 })

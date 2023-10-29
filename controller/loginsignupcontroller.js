@@ -1,12 +1,12 @@
 const path=require('path');
 
 const rootDir=require('../util/path');
-
+//const bcrypt = require("bcrypt");
 const User=require('../models/user');
 
 function isstringinvalid(string)
 {
-   if(string== undefined ||string.length===0) 
+   if(string=== undefined ||string.length===0) 
    {
       return true;
    }
@@ -29,9 +29,10 @@ const postSignup=async (req,res,next)=>{
     }
     const saltrounds=10;
     bcrypt.hash(password,saltrounds,async (err,hash)=>{
-      console.log('reach bycrypt');
+    //  console.log('reach bycrypt');
       if(err) console.log(err);
-    await User.create({name,email,password:hash});
+    const newUser=await User.create({name,email,password:hash});
+    console.log('user created');
     res.status(201).json({message:'successfullly created new user'});
 })
   } catch (error) {

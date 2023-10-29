@@ -3,7 +3,7 @@ async function signUp(event)
 
 try {
     event.preventDefault();
-const name=document.getElementById('nameidid').value;
+const name=document.getElementById('nameid').value;
 const email=document.getElementById('emailid').value;
 const password=document.getElementById('passid').value;
 
