@@ -11,7 +11,7 @@ const loginsignupcontroller =require('../controller/loginsignupcontroller');
 
 
 route.post('/signup',loginsignupcontroller.postSignup);
-route.post('/login',loginsignupcontroller.postlogin);
+route.post('/login',loginsignupcontroller.postLogin);
 
 //route.delete('/delete-user/:id',loginUser.deleteUser);
 

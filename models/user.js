@@ -11,19 +11,20 @@ id:{
     type:Sequelize.INTEGER,
     allowNull:false,
     autoIncrement:true,
-    primaryKey:true
+    primaryKey:true,
+    unique:true
 },
 name:
 {
     type:Sequelize.STRING,
-    
+    allowNull:false
     
 },
 email:
 {
     type:Sequelize.STRING,
-    
-    unique:true
+    allowNull:false,
+     unique:true
 },
 
 password:
