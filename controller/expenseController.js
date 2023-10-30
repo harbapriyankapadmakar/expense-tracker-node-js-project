@@ -2,10 +2,10 @@
 
 const Expense=require('../models/expenses');
 const User=require('../models/user');
-const sequelize=require('../Utils/database');
- const userServices=require('../services/userservices')
-const s3Services=require('../services/S3service')
-const DownloadedFile=require('../models/downloadfile');
+const sequelize=require('../util/database');
+//  const userServices=require('../services/userservices')
+// const s3Services=require('../services/S3service')
+// const DownloadedFile=require('../models/downloadfile');
 
 ///string validation use this for post get functions in controller
 const isstringinvalid=(string)=>
@@ -24,7 +24,7 @@ const isstringinvalid=(string)=>
 ///post expense
 
 const addexpense=async(req,res,next)=>{
-   const t=await sequelize.transaction();
+   // const t=await sequelize.transaction();
     try {
       const {amount,description,category}=req.body;
       console.log(amount,description,category);
@@ -39,7 +39,7 @@ const addexpense=async(req,res,next)=>{
 
           console.log(totalExpense);
 
-       await User.update({totalExpenses:totalExpense},{where:{id:req.user.id},transaction:t});
+      //  await User.update({totalExpenses:totalExpense},{where:{id:req.user.id},transaction:t});
 
   ////whenever we commit then only save the details if on has error its not work
          await t.commit();
@@ -64,11 +64,11 @@ const getexpense=async(req,res,next)=>{
       const totalExpenses=await req.user.countExpenses();
       console.log(totalExpenses);
 
-        const data=await userServices.getExpenses(req,{
-         offset:(page-1)*pageSize,
-         limit: pageSize,
-         order:[['id','DESC']]
-        })
+      //    const data=await userServices.getExpenses(req,{
+      //    offset:(page-1)*pageSize,
+      //    limit: pageSize,
+      //    order:[['id','DESC']]
+      //   })
        
       res.status(200).json({
          allExpenses: data,
@@ -129,38 +129,38 @@ const getexpense=async(req,res,next)=>{
 
 
   ///download 
-const downloadexpense=async(req,res)=>{
-try {
+// const downloadexpense=async(req,res)=>{
+// try {
      
-      // const expense=await Expense.findAll({where:{userId:req.user.id}});
-      const expenses=await userServices.getExpenses(req);
-      console.log("--------------------------------------------------------------reached downloadedfiles");
-      console.log(expenses);
-      const stringifiedExpenses=JSON.stringify(expenses);
-      const userId = req.user.id;
-      const filename=`Expense${userId}/${new Date()}.txt`
+//       // const expense=await Expense.findAll({where:{userId:req.user.id}});
+//       const expenses=await userServices.getExpenses(req);
+//       console.log("--------------------------------------------------------------reached downloadedfiles");
+//       console.log(expenses);
+//       const stringifiedExpenses=JSON.stringify(expenses);
+//       const userId = req.user.id;
+//       const filename=`Expense${userId}/${new Date()}.txt`
       //parameters data &filename
-      const fileUrl=await s3Services.uploadToS3(stringifiedExpenses,filename);
-      console.log(fileUrl);
+      // const fileUrl=await s3Services.uploadToS3(stringifiedExpenses,filename);
+      // console.log(fileUrl);
       
-      await DownloadedFile.create({
-         url: fileUrl,
-         userId:req.user.id
-       });
-      res.status(200).json({fileUrl,success:true})   
-} catch (error) {
-       console.log(error);
-       res.status(500).json({fileUrl:"",success:false,error})
-}
+      // await DownloadedFile.create({
+      //    url: fileUrl,
+      //    userId:req.user.id
+      //  });
+      // res.status(200).json({fileUrl,success:true})   
+// } catch (error) {
+//        console.log(error);
+//        res.status(500).json({fileUrl:"",success:false,error})
+// }
 
 
-}
+// }
 
   module.exports={
    addexpense,
    getexpense,
    deleteExpense,
    isstringinvalid,
-   downloadexpense
+   // downloadexpense
    
   }
