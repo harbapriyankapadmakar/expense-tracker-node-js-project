@@ -1,10 +1,4 @@
-
-
 console.log('expense js file connected');
-
-
-
-
 
 async function saveExpenses(event)
 {
@@ -34,15 +28,7 @@ async function saveExpenses(event)
         document.body.innerHTML+=`<h4>Something went wrong --${error}</h4>`
         
     }
-}
-
-
-
-
-
-
-
-function parseJwt (token) {
+}function parseJwt (token) {
     var base64Url = token.split('.')[1];
     var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
     var jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function(c) {
@@ -52,29 +38,13 @@ function parseJwt (token) {
     return JSON.parse(jsonPayload);
 }
 
-
-
-
-
-
-
-function showPremiumusermessage()
-{
-    const rzp=document.getElementById('rzp-button').style.display="none";
-    //visibility hidden takes space display none takes no space
-    document.getElementById('premium').innerHTML+="You are now a Premium User"
+// function showPremiumusermessage()
+// {
+//     const rzp=document.getElementById('rzp-button').style.display="none";
+//     //visibility hidden takes space display none takes no space
+//     document.getElementById('premium').innerHTML+="You are now a Premium User"
    
-}
-
-
-
-
-
-
-
-
-
-
+// }
 
 window.addEventListener('DOMContentLoaded',async()=>{
 
@@ -105,12 +75,6 @@ try {
     
 })
 
-
-
-
-
-
-
 async function deleteExpense(id)
 {
     try {
@@ -123,10 +87,6 @@ async function deleteExpense(id)
         document.body.innerHTML+=`<h4>Something went wrong --${error}</h4>`
     }
 }
-
-
-
-
 
 function removeUserFromScreen(id)
 {

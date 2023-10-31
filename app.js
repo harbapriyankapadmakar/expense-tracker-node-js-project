@@ -32,3 +32,5 @@ sequelize.sync()
     app.listen(port, () => console.log('Server starts....'))
 })
 .catch(err=>console.log(err));
+
+

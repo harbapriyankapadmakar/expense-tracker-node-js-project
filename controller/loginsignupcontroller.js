@@ -1,7 +1,7 @@
 const path=require('path');
 
 const rootDir=require('../util/path');
-//const bcrypt = require("bcrypt");
+const bcrypt = require("bcrypt");
 const User=require('../models/user');
 
 function isstringinvalid(string)
