@@ -7,16 +7,21 @@ const rootDir=require('./util/path');
 const sequelize=require('./util/database');
 const loginsignupRoutes=require('./routes/loginsignupRoutes')
 const expenseroutes=require('./routes/expenseroutes');
+const premiumFeatureRoutes=require('./routes/premiumFeature');
+const productRoutes=require('./routes/product');
 const User =require('./models/user')
 const fs=require('fs');
 const path=require('path')
 const Expense = require('./models/expenses');
+const Order=require('./models/orders');
 
 app.use(cors());
 app.use(bodyParser.json({ extended: false }));
 app.use(bodyParser.json());
 app.use('/user',loginsignupRoutes);
 app.use('/expense',expenseroutes);
+app.use('/premium',premiumFeatureRoutes);
+app.use('/purchase',productRoutes);
 app.use(express.static('views'));
 app.use((req,res,next)=>{
     console.log('urlll',req.url);
@@ -24,6 +29,9 @@ app.use((req,res,next)=>{
 });
 User.hasMany(Expense);
 Expense.belongsTo(User);
+
+User.hasMany(Order);
+Order.belongsTo(User);
 
  
 sequelize.sync()

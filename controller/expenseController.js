@@ -3,9 +3,12 @@
 const Expense=require('../models/expenses');
 const User=require('../models/user');
 const sequelize=require('../util/database');
-//  const userServices=require('../services/userservices')
-// const s3Services=require('../services/S3service')
-// const DownloadedFile=require('../models/downloadfile');
+//const routes = express.Router();
+const path = require("path");
+const bodyParser = require('body-parser');
+ const userServices=require('../services/userservices')
+const s3Services=require('../services/S3service')
+const DownloadedFile=require('../models/downloadfile');
 
 ///string validation use this for post get functions in controller
 const isstringinvalid=(string)=>
@@ -24,22 +27,23 @@ const isstringinvalid=(string)=>
 ///post expense
 
 const addexpense=async(req,res,next)=>{
+   console.log("Expense Data from client to server", req.body);
    // const t=await sequelize.transaction();
     try {
       const {amount,description,category}=req.body;
       console.log(amount,description,category);
-      console.log('userId>>>>>>',req.user.id)
+      const userId=req.user.id;
 
       if(isstringinvalid(amount.toString())||isstringinvalid(description)||isstringinvalid(category)){
           return res.status(400).json({message:"something missing",success:false})
       }
      
           const data=await Expense.create({amount,description,category,userId:req.user.id},{transaction:t});
-          totalExpense=Number(req.user.totalExpenses)+Number(amount);
+          //totalExpense=Number(req.user.totalExpenses)+Number(amount);
 
-          console.log(totalExpense);
+        //  console.log(totalExpense);
 
-      //  await User.update({totalExpenses:totalExpense},{where:{id:req.user.id},transaction:t});
+     //  await User.update({totalExpenses:totalExpense},{where:{id:req.user.id},transaction:t});
 
   ////whenever we commit then only save the details if on has error its not work
          await t.commit();
@@ -57,38 +61,40 @@ const addexpense=async(req,res,next)=>{
 const getexpense=async(req,res,next)=>{
   
      try {
+      const expenses = await  req.user.getexpense()
+        return res.status(200).json({expenses}); 
 
       //const check =req.user.ispremiumuser;
-      const page=+req.query.page||1;
-      const pageSize= +req.query.pageSize||10;
-      const totalExpenses=await req.user.countExpenses();
-      console.log(totalExpenses);
+//       const page=+req.query.page||1;
+//       const pageSize= +req.query.pageSize||10;
+//       const totalExpenses=await req.user.countExpenses();
+//       console.log(totalExpenses);
 
-      //    const data=await userServices.getExpenses(req,{
-      //    offset:(page-1)*pageSize,
-      //    limit: pageSize,
-      //    order:[['id','DESC']]
-      //   })
+//       //    const data=await userServices.getExpenses(req,{
+//       //    offset:(page-1)*pageSize,
+//       //    limit: pageSize,
+//       //    order:[['id','DESC']]
+//       //   })
        
-      res.status(200).json({
-         allExpenses: data,
-         check,
-         currentPage: page,
-         hasNextPage: pageSize * page < totalExpenses,
-         nextPage: page + 1,
-         hasPreviousPage: page > 1,
-         previousPage: page - 1,
-         lastPage: Math.ceil(totalExpenses / pageSize) 
-      })
+//       res.status(200).json({
+//          allExpenses: data,
+//          check,
+//          currentPage: page,
+//          hasNextPage: pageSize * page < totalExpenses,
+//          nextPage: page + 1,
+//          hasPreviousPage: page > 1,
+//          previousPage: page - 1,
+//          lastPage: Math.ceil(totalExpenses / pageSize) 
+//       })
      
-     } catch (error) {
+    } catch (error) {
 
         console.log(error);
         res.status(500).json({error,success:false})
         console.log(JSON.stringify(error));
         
      }
-  }
+   }
   
   //delete expense 
   const deleteExpense=async(req,res,next)=>{
@@ -99,13 +105,13 @@ const getexpense=async(req,res,next)=>{
          console.log('Id is Missing');
          return res.status(400).json({message:"ID missing",success:false})
      }
-     const t=await sequelize.transaction();
+    // const t=await sequelize.transaction();
   try {
    
          const expenses=await Expense.findOne({where:{id:expenseId}});
          console.log('ExpenseDeleted'); 
          console.log(expenses);
-         const totalExpense=Number(req.user.totalExpenses)-Number(expenses.amount)
+      //   const totalExpense=Number(req.user.totalExpenses)-Number(expenses.amount)
 
          await Expense.destroy({where:{id:expenseId,userId:req.user.id},transaction:t});
          console.log("total",totalExpense);

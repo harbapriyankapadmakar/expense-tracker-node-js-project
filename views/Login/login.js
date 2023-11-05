@@ -18,7 +18,7 @@ const loginuser={
     //showUserOnScreen(res.data.newUserDetail);
    
     document.getElementById('emailid').value = ''; // Clear the email field
-    document.getElementById('passwordid').value = ''; // Clear the phone number field
+    document.getElementById('passid').value = ''; // Clear the phone number field
   
     if (res.status === 202) {
         alert(res.data.message);

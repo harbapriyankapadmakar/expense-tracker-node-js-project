@@ -4,6 +4,11 @@ const rootDir=require('../util/path');
 const bcrypt = require("bcrypt");
 const User=require('../models/user');
 
+const generateAccessToken=(id,name)=>
+{
+   return jwt.sign({userId:id},process.env.JSW_WEB_TOKEN_SECRETKEY)
+}
+
 function isstringinvalid(string)
 {
    if(string=== undefined ||string.length===0) 
@@ -62,7 +67,7 @@ const postLogin=async(req,res)=>{
          return res.status(500).json({success:false,message:"Something Went wrong"})
       }
        if(result===true){
-          res.status(202).json({success:true,message:"Successfullyloginuser"})
+          res.status(202).json({success:true,message:"Successfullyloginuser",token:generateAccessToken})
       }
 
       else{
@@ -83,7 +88,7 @@ if(loginUser==null){
 
 }
 
-module.exports={isstringinvalid,postSignup,postLogin}
+module.exports={isstringinvalid,postSignup,postLogin,generateAccessToken}
 
 
 

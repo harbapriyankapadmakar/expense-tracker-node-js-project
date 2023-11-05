@@ -58,10 +58,10 @@ try {
     const decodetoken= parseJwt(token)
     console.log(decodetoken);
 
-    if(decodetoken.ispremiumuser){
-        showPremiumusermessage();
-        showleaderBoard();
-    }
+    // if(decodetoken.ispremiumuser){
+    //     showPremiumusermessage();
+    //     showleaderBoard();
+    // }
 
     listExpense(res.data.allExpenses)
     showPagination(res.data)
