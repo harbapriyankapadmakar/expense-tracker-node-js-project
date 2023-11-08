@@ -39,11 +39,11 @@ const addexpense=async(req,res,next)=>{
       }
      
           const data=await Expense.create({amount,description,category,userId:req.user.id},{transaction:t});
-          //totalExpense=Number(req.user.totalExpenses)+Number(amount);
+          totalExpense=Number(req.user.totalExpenses)+Number(amount);
 
-        //  console.log(totalExpense);
+         console.log(totalExpense);
 
-     //  await User.update({totalExpenses:totalExpense},{where:{id:req.user.id},transaction:t});
+      await User.update({totalExpenses:totalExpense},{where:{id:req.user.id},transaction:t});
 
   ////whenever we commit then only save the details if on has error its not work
          await t.commit();
@@ -64,20 +64,20 @@ const getexpense=async(req,res,next)=>{
       const expenses = await  req.user.getexpense()
         return res.status(200).json({expenses}); 
 
-      //const check =req.user.ispremiumuser;
+      const check =req.user.ispremiumuser;
 //       const page=+req.query.page||1;
 //       const pageSize= +req.query.pageSize||10;
-//       const totalExpenses=await req.user.countExpenses();
-//       console.log(totalExpenses);
+      const totalExpenses=await req.user.countExpenses();
+      console.log(totalExpenses);
 
-//       //    const data=await userServices.getExpenses(req,{
+         const data=await userServices.getExpenses(req,{
 //       //    offset:(page-1)*pageSize,
-//       //    limit: pageSize,
-//       //    order:[['id','DESC']]
-//       //   })
+//       //    limit: pageSize,cc
+         order:[['id','DESC']]
+        })
        
-//       res.status(200).json({
-//          allExpenses: data,
+      res.status(200).json({
+         allExpenses: data,
 //          check,
 //          currentPage: page,
 //          hasNextPage: pageSize * page < totalExpenses,
@@ -85,7 +85,7 @@ const getexpense=async(req,res,next)=>{
 //          hasPreviousPage: page > 1,
 //          previousPage: page - 1,
 //          lastPage: Math.ceil(totalExpenses / pageSize) 
-//       })
+      })
      
     } catch (error) {
 
@@ -105,7 +105,7 @@ const getexpense=async(req,res,next)=>{
          console.log('Id is Missing');
          return res.status(400).json({message:"ID missing",success:false})
      }
-    // const t=await sequelize.transaction();
+    const t=await sequelize.transaction();
   try {
    
          const expenses=await Expense.findOne({where:{id:expenseId}});
@@ -116,8 +116,8 @@ const getexpense=async(req,res,next)=>{
          await Expense.destroy({where:{id:expenseId,userId:req.user.id},transaction:t});
          console.log("total",totalExpense);
 
-      //   req.user.totalExpenses = totalExpense;
-      //   await req.user.save({ transaction: t });
+        req.user.totalExpenses = totalExpense;
+        await req.user.save({ transaction: t });
          await User.update({totalExpenses:totalExpense},{where:{id:req.user.id},transaction:t})
          await t.commit();
 

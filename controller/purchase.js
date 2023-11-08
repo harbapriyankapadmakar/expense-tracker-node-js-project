@@ -1,7 +1,7 @@
 const Razorpay=require('razorpay');
 const Order=require('../models/orders')
 const User=require('../models/user')
-const loginsignupController=require('./loginsignupController');
+const loginsignupController=require('../loginsignupController');
 
 
 
@@ -63,9 +63,9 @@ const updateTransactionStatus=async(req,res,next)=>{
             console.log('no odrer is available');
         }
 
-        // await order.update({paymentid:payment_id,status:'SUCCESSFULL',userId:req.user.id});
+        await order.update({paymentid:payment_id,status:'SUCCESSFULL',userId:req.user.id});
 
-        // await req.user.update({ispremiumuser:true});
+        await req.user.update({ispremiumuser:true});
 
         const promise1=order.update({paymentid:payment_id,status:'SUCCESSFULL',userId:req.user.id});
 

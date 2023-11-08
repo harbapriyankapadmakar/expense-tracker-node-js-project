@@ -1,7 +1,27 @@
-const getExpenses=(req,where)=>{
-    return req.user.getExpenses(where);
+const User = require('../models/user');
 
+
+exports.createUser = async (name,email,password) => {
+    try {
+        const user = await User.create({
+            name,
+            email,
+            password,
+        });
+        return user;
+        
+    } catch (error) {
+        console.log(error);
+        throw error
+    }
 }
-
-
-module.exports={getExpenses}
+exports.getUserbyemail = async (email) => {
+try {
+    let user = await User.findOne({where:{email}});
+    return user;
+    
+} catch (error) {
+    console.log(error);
+    throw error
+}
+}

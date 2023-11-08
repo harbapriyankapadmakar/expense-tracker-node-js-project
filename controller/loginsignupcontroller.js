@@ -1,12 +1,14 @@
 const path=require('path');
-
+const jwt=require('jsonwebtoken');
 const rootDir=require('../util/path');
 const bcrypt = require("bcrypt");
 const User=require('../models/user');
+const secretKey = process.env.SECRET_KEY;
 
 const generateAccessToken=(id,name)=>
 {
-   return jwt.sign({userId:id},process.env.JSW_WEB_TOKEN_SECRETKEY)
+   const token= jwt.sign({userId:id},generateAccessToken)//,process.env.JSW_WEB_TOKEN_SECRETKEY)
+    console.log('Generated Token',token);
 }
 
 function isstringinvalid(string)
@@ -25,8 +27,9 @@ function isstringinvalid(string)
 
 //post signup
 const postSignup=async (req,res,next)=>{
+   const {name,email,password}=req.body;
    try {
-    const {name,email,password}=req.body;
+    
 
     if(isstringinvalid(name)||isstringinvalid(email)||isstringinvalid(password))
     {
@@ -40,6 +43,15 @@ const postSignup=async (req,res,next)=>{
     console.log('user created');
     res.status(201).json({message:'successfullly created new user'});
 })
+const user = await Userservices.getUserbyemail(userName);
+        if (!user) {
+            const hashedPassword = await bcrypt.hash(password, 10);
+            const user = await Userservices.createUser(Name,userName,hashedPassword);
+            const token = jwt.sign({ userId: user.id }, secretKey, { expiresIn: '1h' });
+            response.status(200).send({ token: token, user: user });
+        } else {
+            response.status(401).send(user);
+        }
   } catch (error) {
       res.status(500).json({error});
       console.log(JSON.stringify(error));
@@ -88,7 +100,7 @@ if(loginUser==null){
 
 }
 
-module.exports={isstringinvalid,postSignup,postLogin,generateAccessToken}
+module.exports={postSignup,postLogin,isstringinvalid}
 
 
 

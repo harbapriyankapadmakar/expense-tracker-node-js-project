@@ -1,10 +1,8 @@
+
+const dotenv = require('dotenv');
+dotenv.config();
 const AWS = require('aws-sdk');
-
-
-
-
-
-  //uploadtos3
+//uploadtos3
   const  uploadToS3=(data,filename)=>{
     const BUCKET_NAME='dhinesh-expensetracker'; ///always use process.env 
     const IAM_USER_KEY=process.env.S3BUCKET_ACCESS_KEY;

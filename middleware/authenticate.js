@@ -6,14 +6,14 @@ const User=require('../models/user');
 exports.authenticate=async (req,res,next)=>{
     try {
 
-        const token = req.header('Authorisation');
+        const token = req.header.authenticate;
          console.log(token);
 
-         const user=jwt.verify(token,'98789d8cedf2f986aht415saku8865432svdxfsbxfsde987321sdfghjmnb6gdkhsf47895dsw2fdwscwfg98f5df4sgsd4dscewf4gregfe1fr4grege62ewgf4gre6r6g454')
+         const decode=jwt.verify(token,secretKey);
          console.log('userId>>>>',user.userId);
-         const data=await User.findByPk(user.userId);
-         console.log(data);
-         req.user=data;   ////very important line req.user used next line as wll 
+         const User=await User.findByPk(user.userId);
+         console.log(user);
+         req.user=user;   ////very important line req.user used next line as wll 
          next();            ////if not bnext given it will not going into next 
     } catch (error) {
         console.log(error);

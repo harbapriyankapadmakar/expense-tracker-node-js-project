@@ -1,22 +1,22 @@
 const express=require('express')
 
-const route=express.Router();
+const routes=express.Router();
 
 const User = require("../models/user");
 const path=require('path');
 
 const rootDir=require('../util/path');
 
-const loginsignupcontroller =require('../controller/loginsignupcontroller');
+const loginsignupController =require('../controller/loginsignupController');
 
 
-route.post('/signup',loginsignupcontroller.postSignup);
-route.post('/login',loginsignupcontroller.postLogin);
+routes.post('/signup',loginsignupController.postSignup);
+routes.post('/login',loginsignupController.postLogin);
 
-//route.delete('/delete-user/:id',loginUser.deleteUser);
+// route.delete('/delete-user/:id',loginsignupController.deleteUser);
 
  
-module.exports=route;
+module.exports=routes;
 
 
  
